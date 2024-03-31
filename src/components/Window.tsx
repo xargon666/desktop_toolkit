@@ -101,7 +101,7 @@ const Window = ({ children, name, windowId }: WindowProps) => {
             };
         }
     }, [activeStatus]);
-
+    if (!true)setWindowDimensions
     return (
         <div style={windowStyle} id={windowId} className="window">
             <div className='title-bar-container'>
