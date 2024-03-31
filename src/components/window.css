@@ -1,0 +1,36 @@
+.title-bar-container {
+    display:flex;
+    flex-direction: row;
+    border-bottom: black solid 1.75px;
+    background-color:darkgreen;
+    color:white;
+}
+
+.title-bar{
+    width:100%;
+    padding-left:2em
+}
+
+.exit-window{
+    padding:0 1em
+}
+
+.exit-window:hover{
+    background-color:red;
+}
+
+.exit-window:active{
+    background-color: rgb(255, 138, 138);
+}
+
+.window-data{
+  font-size: 1em;
+  line-height: .5;
+}
+
+.window {
+  background: rgb(217, 255, 217);
+  border: 2px rgb(0, 26, 6) solid;
+  border-radius: 3px;
+  color:black;
+}
