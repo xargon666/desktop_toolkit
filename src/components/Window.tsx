@@ -5,9 +5,10 @@ interface WindowProps {
     children: any;
     name: string;
     windowId: string;
+    handleClickClose: any;
 }
 
-const Window = ({ children, name, windowId }: WindowProps) => {
+const Window = ({ children, name, windowId, handleClickClose }: WindowProps) => {
     const pos0 = { x: 0, y: 0 };
     const defaultWindowSize = { width: 300, height: 300 };
     const [windowPosition, setWindowPosition] = useState({ x: 300, y: 50 });
@@ -26,11 +27,10 @@ const Window = ({ children, name, windowId }: WindowProps) => {
         fontWeight: "500",
         color: "white",
     };
+    
 
     const [windowStyle, setWindowStyle] = useState(initialWindowStyle);
-    const [windowTitleStyle, setWindowTitleStyle] = useState(
-        initialWindowTitleStyle
-    );
+    const [windowTitleStyle, setWindowTitleStyle] = useState(initialWindowTitleStyle);
     const [activeStatus, setActiveStatus] = useState(false);
     const [windowTitleMousePosition, setWindowMousePosition] = useState(pos0);
 
@@ -81,6 +81,7 @@ const Window = ({ children, name, windowId }: WindowProps) => {
         }
     };
 
+
     const handleWindowMouseMove = (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
@@ -114,7 +115,7 @@ const Window = ({ children, name, windowId }: WindowProps) => {
                 >
                     {name}
                 </div>
-                <div className='exit-window'>X</div>
+                <div className='exit-window' onClick={()=>handleClickClose()}>X</div>
             </div>
             <div className="content-area">
                 <p className="window-data">
