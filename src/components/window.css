@@ -1,36 +1,75 @@
-.title-bar-container {
-    display:flex;
-    flex-direction: row;
-    border-bottom: black solid 1.75px;
-    background-color:darkgreen;
-    color:white;
-}
-
-.title-bar{
-    width:100%;
-    padding-left:2em
-}
-
-.exit-window{
-    padding:0 1em
-}
-
-.exit-window:hover{
-    background-color:red;
-}
-
-.exit-window:active{
-    background-color: rgb(255, 138, 138);
-}
-
-.window-data{
-  font-size: 1em;
-  line-height: .5;
+:root {
+    --window-bg-color: #d9ffd9;
+    --window-title-bg-gradient: linear-gradient(
+        0deg,
+        rgba(0, 59, 0, 1) 0%,
+        rgba(0, 110, 0, 1) 50%,
+        rgba(0, 148, 0, 1) 90%,
+        rgba(0, 186, 0, 1) 100%
+    );
 }
 
 .window {
-  background: rgb(217, 255, 217);
-  border: 2px rgb(0, 26, 6) solid;
-  border-radius: 3px;
-  color:black;
+    position: absolute;
+    color: black;
+    background-color: var(--window-bg-color);
+    border: 2px rgb(0, 26, 6) solid;
+    border-radius: 3px;
+}
+
+.title-bar-container {
+    display: flex;
+    border-bottom: black solid 2px;
+    color: white;
+    text-align: center
+}
+
+.title-bar {
+    width: 100%;
+    padding-left: 2em;
+}
+
+.exit-window {
+    padding: 0 1em;
+    color: white;
+}
+
+.exit-window:hover {
+    background: red;
+}
+
+.exit-window:active {
+    background: rgb(255, 138, 138);
+}
+
+.window-content {
+    font-size: 1em;
+    line-height: 0.5;
+    overflow: auto;
+    
+}
+
+.window-resize-container {
+    display: flex;
+    width: auto;
+    justify-content: flex-end;
+}
+
+.window-resize-button {
+    background: linear-gradient(
+        to bottom right,
+        #d9ffd9 0%,
+        #d9ffd9 50%,
+        green 50%,
+        green 100%
+    );
+}
+.window-resize-button:hover {
+    background: linear-gradient(
+        to bottom right,
+        #d9ffd9 0%,
+        #d9ffd9 50%,
+        rgb(0, 174, 0) 50%,
+        rgb(0, 174, 0)
+    );
 }

@@ -1,12 +1,14 @@
 import "./App.css";
 import Counter from './project/Counter'
+import About from './project/About'
 function App() {
     
     return (
-        <div>
+        <>
+            <h1 id="main-title" className="pulsing-text">DESKTOP_TOOLKIT_PROJ</h1>
+            <About/>
             <Counter/>
-            <h1>DESKTOP_TOOLKIT_PROJ</h1>
-        </div>
+        </>
     );
 }
 

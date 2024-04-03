@@ -1,64 +1,60 @@
-body {
-  background-color: black;
-  background-image: radial-gradient(
-    rgba(0, 150, 0, 0.75), black 120%
-  );
-  overflow: hidden;
-  color: white;
-  font-family: Inconsolata, monospace;
-  text-shadow: 0 0 5px #C8C8C8;
- }
- body::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.1), /* Adjust the opacity of the lines */
-    rgba(0, 0, 0, 0.2) 2px, /* Increase the width of the lines */
-    transparent 1.5px,
-    transparent 3px
-  );
-  pointer-events: none;
-}
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    user-select: none;
 }
 
 .logo {
-  height: 4em;
-  padding: 1em;
-  will-change: filter;
-  transition: filter 300ms;
+    height: 4em;
+    padding: 1em;
+    will-change: filter;
+    transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+    filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+    filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
 }
 
 .card {
-  padding: 2em;
+    padding: 2em;
 }
+
+#main-title{
+  text-shadow: 0 0 20px rgb(212, 212, 212);
+}
+
+.pulsing-text {
+  animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+    0% {
+      text-shadow: 0 0 10px rgb(191, 191, 191);
+    }
+    50% {
+      text-shadow: 0 0 15px rgb(230, 230, 230);
+    }
+    100% {
+      text-shadow: 0 0 10px rgb(191, 191, 191);
+    }
+}
+
+
