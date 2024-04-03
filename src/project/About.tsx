@@ -1,13 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Window from "../components/Window";
 import reactLogo from "../assets/react.svg";
 import viteLogo from "../assets/vite.svg";
 
 const About = () => {
+    
+    // mouse position
+    const [mousePos, setMousePos] = useState({x:0,y:0});
+    
+    useEffect(() => {
+        if (true) {
+            window.addEventListener("mousemove", updateMousePos);
+            return () => {
+                window.removeEventListener("mousemove", updateMousePos);
+            };
+        }
+    }, [mousePos]);
+    
+    const updateMousePos = (e: MouseEvent) => {
+        const currentPos = {
+            x: e.clientX,
+            y: e.clientY,
+        };
+        setMousePos(currentPos);
+    };
     const [isVisible, setIsVisible] = useState(true);
     const handleClickClose = () => setIsVisible((prevState) => !prevState);
-    const defaultWidth = 300
-    const defaultHeight = 300
+    const defaultWidth = 300;
+    const defaultHeight = 300;
     return (
         <>
             {isVisible && (
@@ -35,8 +55,6 @@ const About = () => {
                                 />
                             </a>
                             {/* spacer to prevent rotating logo from breaking things */}
-                            <br></br>
-                            <br></br>
                             <br></br>
                             <br></br>
                         </>

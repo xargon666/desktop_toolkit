@@ -13,8 +13,8 @@ const Counter = () => {
     const onClickCount = () => setCount((count) => count + 1);
 
     const counterStyling = {
-        paddingTop: "15px"
-    }
+        paddingTop: "20px",
+    };
 
     return (
         <>
@@ -27,11 +27,11 @@ const Counter = () => {
                     defaultHeight={defaultHeight}
                     children={
                         <div style={counterStyling}>
-                        <MyButton
-                            onClickFunc={onClickCount}
-                            value={`count is ${count}`}
+                            <MyButton
+                                onClickFunc={onClickCount}
+                                value={`count is ${count}`}
                             />
-                            </div>
+                        </div>
                     }
                 />
             )}

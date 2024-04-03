@@ -44,15 +44,16 @@
 
 .window-content {
     font-size: 1em;
-    line-height: 0.5;
     overflow: auto;
-    
 }
 
 .window-resize-container {
     display: flex;
     width: auto;
     justify-content: flex-end;
+    position:absolute;
+    bottom:0;
+    right:0
 }
 
 .window-resize-button {

@@ -48,39 +48,33 @@ const Window = ({
     };
 
     const resizeButtonHeight = 17;
-    const resizeButtonGradient = "linear-gradient(to bottom right,#d9ffd9 0%,#d9ffd9 50%,#005c00 50%,#005c00 100%)"
-    const resizeButtonGradientActive = "linear-gradient(to bottom right,#d9ffd9 0%,#d9ffd9 50%,#009400 50%,#009400 100%)"
+    const resizeButtonGradient =
+        "linear-gradient(to bottom right,#d9ffd9 0%,#d9ffd9 50%,#005c00 50%,#005c00 100%)";
+    const resizeButtonGradientActive =
+        "linear-gradient(to bottom right,#d9ffd9 0%,#d9ffd9 50%,#009400 50%,#009400 100%)";
 
     const initialWindowResizeStyle: any = {
         height: `${resizeButtonHeight}px`,
         width: `${resizeButtonHeight}px`,
-        background: resizeButtonGradient
+        background: resizeButtonGradient,
     };
-    const POS_0 = {x:0,y:0}
+    const POS_0 = { x: 0, y: 0 };
     const [windowStyle, setWindowStyle] = useState(initialWindowStyle);
-    const [windowTitleStyle, setWindowTitleStyle] = useState(initialWindowTitleStyle);
-    const [windowResizeStyle, setWindowResizeStyle] = useState(initialWindowResizeStyle);
+    const [windowTitleStyle, setWindowTitleStyle] = useState(
+        initialWindowTitleStyle
+    );
+    const [windowResizeStyle, setWindowResizeStyle] = useState(
+        initialWindowResizeStyle
+    );
     const [titleActiveStatus, setActiveStatus] = useState(false);
     const [resizeActiveStatus, setResizeActiveStatus] = useState(false);
-    const [windowTitleMousePosition, setWindowTitleMousePosition] = useState(POS_0);
-    const [resizeButtonMousePosition,setResizeButtonMousePosition] = useState(POS_0)
-   
-    const handleResizeButtonMouseDown = () => {
-        setWindowResizeStyle((prevStyle:{}) => ({
-            ...prevStyle,
-            background: resizeButtonGradientActive
-        }))
-        setResizeActiveStatus(true)
-    }
-    const handleResizeButtonMouseUp = () => {
-        setWindowResizeStyle((prevStyle:{}) => ({
-            ...prevStyle,
-            background: resizeButtonGradient
-        }))
-        setResizeActiveStatus(false)
-    }
+    const [windowTitleMousePosition, setWindowTitleMousePosition] =
+        useState(POS_0);
 
+    // ================================================================================
+    // TITLE WIN MOVE BLOCK
     const handleWindowTitleMouseDown = () => {
+        document.getElementById(windowId)?.addEventListener("mouseleave", onMouseLeave);
         setWindowTitleStyle((prevStyle: {}) => ({
             ...prevStyle,
             background: titleGradientActive,
@@ -102,6 +96,10 @@ const Window = ({
                 x: e.clientX - windowTitleMousePosition.x,
                 y: e.clientY - windowTitleMousePosition.y,
             };
+            // deactivates title if mouse button released
+            if ( e.buttons !== 1 ) {
+                handleWindowTitleMouseUp();
+            }
             // right edge
             if (newPos.x + windowDimensions.width >= window.innerWidth) {
                 newPos.x = window.innerWidth - windowDimensions.width;
@@ -127,8 +125,15 @@ const Window = ({
         }
     };
 
+    const onMouseLeave = () => {
+        window.removeEventListener("mouseleave", onMouseLeave);
+        handleWindowTitleMouseUp();
+    }
+
     // Compensates for mouse position
-    const handleWindowTitleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleWindowTitleMouseMove = (
+        e: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
         const div = document.getElementById(windowId);
         if (div) {
             const rect = div.getBoundingClientRect();
@@ -137,7 +142,7 @@ const Window = ({
             setWindowTitleMousePosition({ x, y });
         }
     };
-    
+
     // Applies event to to fire handleWindowMove on mouse movement
     useEffect(() => {
         if (titleActiveStatus) {
@@ -148,50 +153,67 @@ const Window = ({
         }
     }, [titleActiveStatus]);
 
-    // Compensates for mouse position
-    const handleResizeMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const div = document.getElementById(windowId);
-        if (div) {
-            const rect = div.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            setResizeButtonMousePosition({ x, y });
+    // ================================================================================
+    // WINDOW RESIZE BLOCK
+    const handleResizeButtonMouseDown = () => {
+        setWindowResizeStyle((prevStyle: {}) => ({
+            ...prevStyle,
+            background: resizeButtonGradientActive,
+        }));
+        setResizeActiveStatus(true);
+    };
+    const handleResizeButtonMouseUp = () => {
+        setWindowResizeStyle((prevStyle: {}) => ({
+            ...prevStyle,
+            background: resizeButtonGradient,
+        }));
+        setResizeActiveStatus(false);
+    };
+
+    // Applies event to to fire handleWindowResize on mouse movement
+    useEffect(() => {
+        if (resizeActiveStatus) {
+            window.addEventListener("mousemove", handleWindowResize);
+            return () => {
+                window.removeEventListener("mousemove", handleWindowResize);
+            };
+        }
+    }, [resizeActiveStatus]);
+
+    const handleWindowResize = (e: MouseEvent) => {
+        if (resizeActiveStatus) {
+            let newSize = {
+                width: e.clientX - windowPosition.x,
+                height: e.clientY - windowPosition.y,
+            };
+
+            if (newSize.width < defaultWidth) {
+                newSize.width = defaultWidth;
+            }
+            if (newSize.height < updatedHeight) {
+                newSize.height = updatedHeight;
+            }
+            setWindowDimensions(newSize);
+
+            setWindowStyle((prevStyle: {}) => ({
+                ...prevStyle,
+                width: newSize.width,
+                height: newSize.height,
+            }));
         }
     };
 
-        // Applies event to to fire handleWindowResize on mouse movement
-        useEffect(() => {
-            if (resizeActiveStatus) {
-                window.addEventListener("mousemove", handleWindowResize);
-                return () => {
-                    window.removeEventListener("mousemove", handleWindowResize);
-                };
-            }
-        }, [resizeActiveStatus]);
-
-        const handleWindowResize = (e: MouseEvent) => {
-            if (resizeActiveStatus) {
-                let newSize = {
-                    width:200,
-                    height:200
-                }
-                setWindowDimensions(newSize)
-                setWindowStyle((prevStyle: {}) => ({
-                    ...prevStyle,
-                    width: newSize.width,
-                    height: newSize.height
-                }))
-            }
-        }
-
     // Set height of window to fit content
+    const [updatedHeight, setUpdatedHeight] = useState(0);
+
     useEffect(() => {
         const contentDimensions = document
             .getElementById(windowId)
             ?.getElementsByClassName("window-content")[0]
             .getBoundingClientRect();
         if (contentDimensions) {
-            let contentHeight = contentDimensions.height + resizeButtonHeight + 9;
+            let contentHeight = contentDimensions.height + 50;
+            setUpdatedHeight(contentHeight);
             setWindowStyle((prevStyle: {}) => ({
                 ...prevStyle,
                 height: `${contentHeight}px`,
@@ -210,7 +232,7 @@ const Window = ({
                 >
                     {name}
                 </div>
-                <div className="exit-window" onClick={() => handleClickClose()}>
+                <div className="exit-window" onClick={handleClickClose}>
                     X
                 </div>
             </div>
@@ -222,7 +244,6 @@ const Window = ({
                         style={windowResizeStyle}
                         onMouseDown={handleResizeButtonMouseDown}
                         onMouseUp={handleResizeButtonMouseUp}
-                        onMouseMove={handleResizeMouseMove}
                     ></div>
                 </div>
             </div>
