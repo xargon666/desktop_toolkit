@@ -90,15 +90,15 @@ const Window = ({
     };
 
     const handleWindowMove = (e: MouseEvent) => {
+        if ( e.buttons !== 1 ) {
+            handleWindowTitleMouseUp();
+        }
         if (titleActiveStatus) {
             let newPos = {
                 x: e.clientX - windowTitleMousePosition.x,
                 y: e.clientY - windowTitleMousePosition.y,
             };
             // deactivates title if mouse button released
-            if ( e.buttons !== 1 ) {
-                handleWindowTitleMouseUp();
-            }
             // right edge
             if (newPos.x + windowDimensions.width >= window.innerWidth) {
                 newPos.x = window.innerWidth - windowDimensions.width;
@@ -147,7 +147,7 @@ const Window = ({
         }
     }, [titleActiveStatus]);
 
-    // Mouse Leave Handler
+    // Mouse Leaving Viewport Handler
     const handleMouseLeaveViewport = () =>{
         handleWindowTitleMouseUp()
     }
@@ -187,6 +187,9 @@ const Window = ({
     }, [resizeActiveStatus]);
 
     const handleWindowResize = (e: MouseEvent) => {
+        if ( e.buttons !== 1 ) {
+            handleResizeButtonMouseUp();
+        }
         if (resizeActiveStatus) {
             let newSize = {
                 width: e.clientX - windowPosition.x,
