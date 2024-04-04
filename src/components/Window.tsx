@@ -74,7 +74,6 @@ const Window = ({
     // ================================================================================
     // TITLE WIN MOVE BLOCK
     const handleWindowTitleMouseDown = () => {
-        document.getElementById(windowId)?.addEventListener("mouseleave", onMouseLeave);
         setWindowTitleStyle((prevStyle: {}) => ({
             ...prevStyle,
             background: titleGradientActive,
@@ -125,11 +124,6 @@ const Window = ({
         }
     };
 
-    const onMouseLeave = () => {
-        window.removeEventListener("mouseleave", onMouseLeave);
-        handleWindowTitleMouseUp();
-    }
-
     // Compensates for mouse position
     const handleWindowTitleMouseMove = (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -152,6 +146,18 @@ const Window = ({
             };
         }
     }, [titleActiveStatus]);
+
+    // Mouse Leave Handler
+    const handleMouseLeaveViewport = () =>{
+        handleWindowTitleMouseUp()
+    }
+
+    useEffect(()=> {
+        document.body.addEventListener('mouseleave',handleMouseLeaveViewport)
+        return ()=>{
+            document.body.removeEventListener('mouseleave',handleMouseLeaveViewport)
+        }
+    },[])
 
     // ================================================================================
     // WINDOW RESIZE BLOCK
